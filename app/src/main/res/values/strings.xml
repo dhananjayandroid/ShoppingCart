@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ShoppingCart</string>
+
+    <string name="no_products_found">No products found</string>
+    <string name="error_occurred">An error occurred</string>
+
+</resources>
