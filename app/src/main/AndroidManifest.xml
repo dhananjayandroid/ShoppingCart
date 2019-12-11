@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".productdetails.ProductDetailsActivity"
+            android:parentActivityName=".productlist.ProductListActivity"
+            android:label="@string/details"/>
+        <activity android:name=".mycart.MyCartActivity"
+            android:parentActivityName=".productlist.ProductListActivity"
+            android:label="@string/my_cart"/>
     </application>
 
 </manifest>
