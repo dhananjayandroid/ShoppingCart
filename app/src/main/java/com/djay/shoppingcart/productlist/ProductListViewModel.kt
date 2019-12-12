@@ -9,10 +9,6 @@ class ProductListViewModel(private val repository: ProductDataSource) : ViewMode
 
     val products = MutableLiveData<List<Product>>().apply { value = emptyList() }
 
-    init {
-        loadProducts()
-    }
-
     fun loadProducts() {
         products.value = repository.retrieveProducts()
     }

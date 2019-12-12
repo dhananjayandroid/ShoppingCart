@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.djay.shoppingcart">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustPan"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".productlist.ProductListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +22,12 @@
         </activity>
         <activity
             android:name=".productdetails.ProductDetailsActivity"
-            android:parentActivityName=".productlist.ProductListActivity"
-            android:label="@string/details"/>
-        <activity android:name=".mycart.MyCartActivity"
-            android:parentActivityName=".productlist.ProductListActivity"
-            android:label="@string/my_cart"/>
+            android:label="@string/details"
+            android:parentActivityName=".productlist.ProductListActivity" />
+        <activity
+            android:name=".mycart.MyCartActivity"
+            android:label="@string/my_cart"
+            android:parentActivityName=".productlist.ProductListActivity" />
     </application>
 
 </manifest>

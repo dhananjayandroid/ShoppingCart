@@ -1,60 +1,51 @@
 package com.djay.shoppingcart.mycart
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.djay.shoppingcart.R
-import com.djay.shoppingcart.ViewModelFactory
-import com.djay.shoppingcart.di.Injection
-import com.djay.shoppingcart.model.Product
-import com.djay.shoppingcart.productdetails.ProductDetailsActivity
-import com.djay.shoppingcart.productlist.ProductListAdapter
-import com.djay.shoppingcart.productlist.ProductListViewModel
+import com.djay.shoppingcart.helpers.CartHelper
 import kotlinx.android.synthetic.main.activity_my_cart.*
 
-
+@Suppress("UNUSED_PARAMETER")
 class MyCartActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MyCartViewModel
     private lateinit var adapter: MyCartAdapter
-
-    companion object {
-        const val TAG= "MyCartActivity"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
         setContentView(R.layout.activity_my_cart)
-        setupViewModel()
         setupUI()
     }
 
     private fun setupUI() {
-        adapter = MyCartAdapter(/*viewModel.products.value ?: */emptyList())
+        adapter = MyCartAdapter()
         rvCart.layoutManager = LinearLayoutManager(this)
         rvCart.adapter = adapter
+        adapter.onRemoveClick = { product ->
+            CartHelper.removeItemFromCart(product)
+            if (CartHelper.cartItems.isNotEmpty()) {
+                adapter.refreshList()
+                updateTotal()
+            } else {
+                Toast.makeText(this, getString(R.string.cart_cleared), Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+
+        updateTotal()
     }
 
-    private fun setupViewModel() {
-//        viewModel = ViewModelProviders.of(this, ViewModelFactory(Injection.providerRepository()))
-//            .get(ProductListViewModel::class.java)
-//        viewModel.products.observe(this, renderProducts)
+    private fun updateTotal() {
+        tvTotal.text = getString(R.string.total_amount, CartHelper.totalAmount())
     }
 
-    private val renderProducts = Observer<List<Product>> {
-        Log.v(TAG, "data updated $it")
-        adapter.update(it)
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        viewModel.loadProducts()
+    fun placeOrder(view: View) {
+        CartHelper.clearCart()
+        Toast.makeText(this, getString(R.string.order_placed), Toast.LENGTH_SHORT).show()
+        finish()
     }
 }

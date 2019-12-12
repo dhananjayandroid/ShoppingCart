@@ -2,83 +2,77 @@ package com.djay.shoppingcart.productdetails
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.djay.shoppingcart.BR
 import com.djay.shoppingcart.R
+import com.djay.shoppingcart.databinding.ActivityProductDetailsBinding
+import com.djay.shoppingcart.helpers.CartHelper
+import com.djay.shoppingcart.model.Product
 import com.djay.shoppingcart.mycart.MyCartActivity
+import kotlinx.android.synthetic.main.activity_product_details.*
 
+
+@Suppress("UNUSED_PARAMETER")
 class ProductDetailsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: ProductDetailsViewModel
+    lateinit var product: Product
 
     companion object {
         const val PRODUCT = "Product"
-        const val TAG = "ProductDetailsActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
-        setContentView(R.layout.activity_product_details)
-//        setupViewModel()
-//        setupUI()
+
+        initUI()
+        attachQuantityViewer()
     }
 
-    fun goTOCart(view : View) {
+    private fun attachQuantityViewer() {
+        edtQuantity.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val quantity = Integer.parseInt(s.toString())
+                when {
+                    quantity > 10 -> edtQuantity.setText(getString(R.string.ten))
+                    quantity < 1 -> edtQuantity.setText("1")
+                }
+            }
+        })
+    }
+
+    private fun initUI() {
+        val binding: ActivityProductDetailsBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_product_details)
+        product = intent.extras?.getSerializable(PRODUCT) as Product
+        binding.setVariable(BR.product, product)
+        binding.executePendingBindings()
+    }
+
+    fun addToCart(view: View) {
+        CartHelper.addItemToCart(product, Integer.parseInt(edtQuantity.text.toString()))
         val intent = Intent(this, MyCartActivity::class.java)
         startActivity(intent)
         finish()
     }
-//
-//    private fun setupUI() {
-//        adapter = ProductListAdapter(viewModel.museums.value ?: emptyList())
-//        rvProductList.layoutManager = GridLayoutManager(this, 2)
-//        rvProductList.adapter = adapter
-//        adapter.onItemClick = { product ->
-//            val intent = Intent(this, ProductDetailsActivity::class.java)
-//            intent.putExtra(ItemDetailViewModel.Companion.ARG_ITEM, movie)
-//        }
-//    }
-//
-//    private fun setupViewModel() {
-//        viewModel = ViewModelProviders.of(this, ViewModelFactory(Injection.providerRepository()))
-//            .get(ProductDetailsViewModel::class.java)
-//        viewModel.museums.observe(this, renderMuseums)
-//
-//        viewModel.isViewLoading.observe(this, isViewLoadingObserver)
-//        viewModel.onMessageError.observe(this, onMessageErrorObserver)
-//        viewModel.isEmptyList.observe(this, emptyListObserver)
-//    }
-//
-//    //observers
-//    private val renderMuseums = Observer<List<Product>> {
-//        Log.v(TAG, "data updated $it")
-//        layoutError.visibility = View.GONE
-//        layoutNoItem.visibility = View.GONE
-//        adapter.update(it)
-//    }
-//
-//    private val isViewLoadingObserver = Observer<Boolean> {
-//        Log.v(TAG, "isViewLoading $it")
-//        val visibility = if (it) View.VISIBLE else View.GONE
-//        progressBar.visibility = visibility
-//    }
-//
-//    private val onMessageErrorObserver = Observer<Any> {
-//        Log.v(TAG, "onMessageError $it")
-//        layoutError.visibility = View.VISIBLE
-//        layoutNoItem.visibility = View.GONE
-//        tvError.text = "Error $it"
-//    }
-//
-//    private val emptyListObserver = Observer<Boolean> {
-//        Log.v(TAG, "emptyListObserver $it")
-//        layoutNoItem.visibility = View.VISIBLE
-//        layoutError.visibility = View.GONE
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        viewModel.loadProducts()
-//    }
+
+    fun increaseQuantity(view: View) {
+        val quantity = Integer.parseInt(edtQuantity.text.toString())
+        edtQuantity.setText((quantity + 1).toString())
+    }
+
+    fun decreaseQuantity(view: View) {
+        val quantity = Integer.parseInt(edtQuantity.text.toString())
+        edtQuantity.setText((quantity - 1).toString())
+    }
 }

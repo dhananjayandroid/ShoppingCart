@@ -33,7 +33,7 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        adapter = ProductListAdapter(viewModel.products.value ?: emptyList())
+        adapter = ProductListAdapter(emptyList())
         rvProductList.layoutManager = GridLayoutManager(this,2)
         rvProductList.adapter = adapter
         adapter.onItemClick = { product ->

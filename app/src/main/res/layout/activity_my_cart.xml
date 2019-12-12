@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".productlist.ProductListActivity">
+    tools:context=".mycart.MyCartActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCart"
@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="end"
-        android:text="Total: $3444"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/btnBuy"
         app:layout_constraintEnd_toEndOf="@+id/btnBuy" />
@@ -38,6 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:onClick="placeOrder"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
