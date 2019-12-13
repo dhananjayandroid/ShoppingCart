@@ -21,7 +21,7 @@ class ProductListActivity : AppCompatActivity() {
     private lateinit var adapter: ProductListAdapter
 
     companion object {
-        const val TAG= "ProductListActivity"
+        const val TAG = "ProductListActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +34,16 @@ class ProductListActivity : AppCompatActivity() {
 
     private fun setupUI() {
         adapter = ProductListAdapter(emptyList())
-        rvProductList.layoutManager = GridLayoutManager(this,2)
-        rvProductList.adapter = adapter
         adapter.onItemClick = { product ->
             val intent = Intent(this, ProductDetailsActivity::class.java)
-            intent.putExtra(ProductDetailsActivity.PRODUCT, product)
+            intent.putExtra(ProductDetailsActivity.ARG_PRODUCT, product)
             startActivity(intent)
+        }
+
+        rvProductList.apply {
+            adapter = this@ProductListActivity.adapter
+            rvProductList.layoutManager = GridLayoutManager(this@ProductListActivity, 2)
+            rvProductList.adapter = adapter
         }
     }
 

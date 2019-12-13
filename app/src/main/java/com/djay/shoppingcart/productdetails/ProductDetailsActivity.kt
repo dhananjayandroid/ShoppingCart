@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.djay.shoppingcart.BR
@@ -22,7 +23,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var product: Product
 
     companion object {
-        const val PRODUCT = "Product"
+        const val ARG_PRODUCT = "arg_product"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +43,14 @@ class ProductDetailsActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val quantity = Integer.parseInt(s.toString())
-                when {
-                    quantity > 10 -> edtQuantity.setText(getString(R.string.ten))
-                    quantity < 1 -> edtQuantity.setText("1")
+                try {
+                    val quantity = Integer.parseInt(s.toString())
+                    when {
+                        quantity > 10 -> edtQuantity.setText(getString(R.string.ten))
+                        quantity < 1 -> edtQuantity.setText("1")
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
         })
@@ -54,13 +59,14 @@ class ProductDetailsActivity : AppCompatActivity() {
     private fun initUI() {
         val binding: ActivityProductDetailsBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_product_details)
-        product = intent.extras?.getSerializable(PRODUCT) as Product
+        product = intent.extras?.getSerializable(ARG_PRODUCT) as Product
         binding.setVariable(BR.product, product)
         binding.executePendingBindings()
     }
 
     fun addToCart(view: View) {
         CartHelper.addItemToCart(product, Integer.parseInt(edtQuantity.text.toString()))
+        Toast.makeText(this, getString(R.string.product_added), Toast.LENGTH_SHORT).show()
         val intent = Intent(this, MyCartActivity::class.java)
         startActivity(intent)
         finish()

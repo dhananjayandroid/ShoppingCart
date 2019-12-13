@@ -32,7 +32,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -57,7 +57,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvProductName"
             app:layout_constraintEnd_toEndOf="@id/ivProduct"
             tools:text=" $500" />
 
@@ -70,10 +70,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            app:layout_constraintEnd_toEndOf="@id/tvProductName"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/tvTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/tvProductName"
+            app:layout_constraintTop_toBottomOf="@id/tvProductName"
             tools:text="200+ sold" />
 
         <TextView
@@ -96,7 +96,7 @@
             android:layout_marginTop="5dp"
             android:gravity="bottom"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            app:layout_constraintEnd_toEndOf="@id/tvProductName"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/tvQuantity"
             app:layout_constraintTop_toBottomOf="@id/tvQuantity">

@@ -1,5 +1,6 @@
 package com.djay.shoppingcart.mycart
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -7,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.djay.shoppingcart.R
 import com.djay.shoppingcart.helpers.CartHelper
+import com.djay.shoppingcart.model.Product
+import com.djay.shoppingcart.productlist.ProductListActivity
 import kotlinx.android.synthetic.main.activity_my_cart.*
 
 @Suppress("UNUSED_PARAMETER")
@@ -23,20 +26,24 @@ class MyCartActivity : AppCompatActivity() {
 
     private fun setupUI() {
         adapter = MyCartAdapter()
-        rvCart.layoutManager = LinearLayoutManager(this)
-        rvCart.adapter = adapter
-        adapter.onRemoveClick = { product ->
-            CartHelper.removeItemFromCart(product)
-            if (CartHelper.cartItems.isNotEmpty()) {
-                adapter.refreshList()
-                updateTotal()
-            } else {
-                Toast.makeText(this, getString(R.string.cart_cleared), Toast.LENGTH_SHORT).show()
-                finish()
-            }
+        adapter.onRemoveClick = { product -> removeProductFromCart(product) }
+        rvCart.apply {
+            layoutManager = LinearLayoutManager(this@MyCartActivity)
+            adapter = this@MyCartActivity.adapter
         }
-
         updateTotal()
+    }
+
+    private fun removeProductFromCart(product: Product) {
+        CartHelper.removeItemFromCart(product)
+        if (CartHelper.cartItems.isNotEmpty()) {
+            adapter.refreshList()
+            updateTotal()
+        } else {
+            Toast.makeText(this, getString(R.string.cart_cleared), Toast.LENGTH_SHORT).show()
+            finish()
+            startActivity(Intent(this, ProductListActivity::class.java))
+        }
     }
 
     private fun updateTotal() {
@@ -47,5 +54,6 @@ class MyCartActivity : AppCompatActivity() {
         CartHelper.clearCart()
         Toast.makeText(this, getString(R.string.order_placed), Toast.LENGTH_SHORT).show()
         finish()
+        startActivity(Intent(this, ProductListActivity::class.java))
     }
 }

@@ -16,7 +16,7 @@ class MyCartAdapter :
     RecyclerView.Adapter<MyCartAdapter.MViewHolder>() {
 
     var onRemoveClick: ((Product) -> Unit)? = null
-    var products : ArrayList<Product> = ArrayList(CartHelper.cartItems.keys)
+    var products: ArrayList<Product> = ArrayList(CartHelper.cartItems.keys)
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): MViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,7 +29,10 @@ class MyCartAdapter :
 
         vh.tvTitle.text = product.name
         vh.tvPrice.text = vh.tvPrice.context.getString(R.string._amount, product.price)
-        vh.tvQuantity.text = vh.tvQuantity.context.getString(R.string.quantity_, CartHelper.cartItems[product].toString())
+        vh.tvQuantity.text = vh.tvQuantity.context.getString(
+            R.string.quantity_,
+            CartHelper.cartItems[product].toString()
+        )
         Glide.with(vh.imageView.context).load(product.photo).into(vh.imageView)
     }
 
@@ -42,7 +45,7 @@ class MyCartAdapter :
         val tvPrice: TextView = view.findViewById(R.id.tvPrice)
         val imageView: ImageView = view.findViewById(R.id.ivProduct)
         val tvQuantity: TextView = view.findViewById(R.id.tvQuantity)
-        private val btnRemove : Button = view.findViewById(R.id.btnRemove)
+        private val btnRemove: Button = view.findViewById(R.id.btnRemove)
 
         init {
             btnRemove.setOnClickListener {

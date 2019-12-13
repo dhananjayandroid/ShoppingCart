@@ -2,5 +2,5 @@ package com.djay.shoppingcart.model
 
 interface ProductDataSource {
 
-    fun retrieveProducts() : List<Product>
+    fun retrieveProducts(): List<Product>
 }

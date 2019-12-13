@@ -19,5 +19,6 @@
     <string name="order_placed">Order placed successfully.</string>
     <string name="ten">10</string>
     <string name="cart_cleared">Cart cleared.</string>
+    <string name="product_added">Product added to cart.</string>
 
 </resources>

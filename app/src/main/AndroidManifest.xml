@@ -13,7 +13,9 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".productlist.ProductListActivity">
+        <activity
+            android:name=".productlist.ProductListActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
